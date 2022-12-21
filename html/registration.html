@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <title>Animated Login Form</title>
+  <link rel="stylesheet" href="../styles/style.css"> 
+  <style>
+    body{
+    background:#313c81;
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+  </style>
+  
+</head> 
+
+<body>
+  <form action="registration.php" class="box"  method="post">
+    <h1 >Signup</h1>
+    <div class="first">
+    <div class="box"> 
+
+    <input type="text"     name="Firstname"  placeholder="Firstname" class="fname" ></input></div>
+    <div class="box"><label> Lastname</label>
+    <input type="text"     name="Lastname"  placeholder="Lastname"></input></div>
+    <div class="box"><label>Email</label>
+    <input type="text"     name="Email"  placeholder="Email"></input></div>
+    <div class="box"><label>DOB</label>
+    <input type="text"     name="dob"  placeholder="Date of birth"></input></div>
+    <div class="box"> <label> Password</label>
+    <input type="password" name="password"  placeholder="Password"></input></div>
+    <div class="box"><label> Re password</label>
+    <input type="password" name="repassword"  placeholder="repassword"></input></div>
+    <button type="submit">login</button>
+  </div>
+  </form>
+</body>
+
+</html>

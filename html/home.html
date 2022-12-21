@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Groww - Online Demat, Trading application</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="icon" href="../images/rocket_3.gif" type="image/x-icon">
+    <link rel="stylesheet" href="../styles/home.css">
+    <link rel="stylesheet" href="../styles/search_box.css">
+</head>
+
+<body>
+
+    <!-- ----------- navbar (Start) ----------- -->
+
+    <nav class="max-w">
+        <div class="nav-div">
+            <div><a href="home.html"><img class="logoclass"
+                        src="../images/rocket_3.gif"
+                        width="168" height="60" alt="Groww Logo" itemprop="logo" ></a>
+            </div>
+
+            <div class="c-search">
+                <i class="material-icons">search</i><input type="search" id="search"
+                    placeholder="What are you looking for today?" />
+            </div>
+
+            <div id="thirdBox">
+                <a href="./loginpage.html"><button id="login-btn">Login/Register</button></a></li>
+                <div id="userAcc" class="dontDisplay">
+                    <img id="user" src="https://www.shareicon.net/data/2016/05/26/771188_man_512x512.png">
+                    <a href="cart.html"><i class="material-icons">shopping_cart</i></a></li>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ----------- navbar (End) ----------- -->
+    <div id="logOutDropDown" class="noDropDownDisplay">
+        <div class="logout">Log Out</div>
+    </div>
+    <div id="dropDown" class="noDropDownDisplay"></div>
+
+
+    <div id="cont1" class="max-w" style="margin-top: 30px;">
+        <div id="first">
+
+            <div class="content">
+                <div class="body-1">
+                    <h1>Invest in</h1>
+                    <div class="slides">
+                        <div class="slide slide1"><span>Stocks</span></div>
+                        <div class="slide slide2"><span>Mutual Funds</span></div>
+                        <div class="slide slide3"><span>Future & options</span></div>
+                        <div class="slide slide4"><span>US Stocks</span></div>
+                        <div class="slide slide5"><span>IPO</span></div>
+                        <div class="slide slide6" area-hidden="true"><span>FDs</span></div>
+                    </div>
+                </div>
+                <div id="mid-text">
+                    <p>Trusted by <strong>Millions</strong> of Indians. Start investing </br> today. </p>
+                </div>
+                <div id="get-btn">
+                    <button>Get Started</button>
+                </div>
+            </div>
+        </div>
+    
+    <div id="second">
+
+        <div id="cont">
+
+            <div> <a href="Stocks.html"> <img
+                        src="http://bitly.ws/xWNv"
+                        alt="">
+                    <div class="cont-text">Mutual Funds</div>
+                </a> </div>
+            <div> <a href="Stocks.html"> <img
+                        src="http://bitly.ws/xWNH"
+                        alt="">
+                    <div class="cont-text">Stocks</div>
+                </a> </div>
+            <div> <a href="FutureO.html"> <img
+                        src="http://bitly.ws/xWNM"
+                        alt="">
+                    <div class="cont-text">Future & Options</div>
+                </a> </div>
+            <div> <a href="US_stock.html"> <img
+                        src="http://bitly.ws/xWP7"
+                        alt="">
+                    <div class="cont-text">US Stocks</div>
+                </a> </div>
+            <div> <a href="Ipo.html"> <img
+                        src="http://bitly.ws/xWP9"
+                        alt="">
+                    <div class="cont-text">IPO</div>
+                </a> </div>
+            <div> <a href="Fd.html"> <img
+                        src="http://bitly.ws/xWPa"
+                        alt="">
+                    <div class="cont-text">Fixed Deposits</div>
+                </a> </div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script>
+
+// image - slide - JS
+
+// 
+// debounce 
+
+let searchInput = document.getElementById("search");
+
+searchInput.oninput = () => {
+    deBounce(showData, 100);
+};
+    
+let timerId;
+let dropdownBox = document.getElementById("dropDown");
+function showData(){
+    let inputValue = document.getElementById("search").value;
+    fetch("../db.json")
+    .then((res) => {
+        return res.json();
+    })
+    .then((res) => {
+        console.log("For Search: ", res);
+        let productArr = [];
+        res.products.forEach(function(data){
+            let temp = "";
+            for(let i = 0; i < data.product_name.length; i++){
+                temp += data.product_name[i];
+                let tempLower = temp.toLowerCase();
+                if(inputValue == temp || inputValue == tempLower){
+                    console.log(data.product_name);
+                    productArr.push(data);
+                }
+            }
+            dropDown(productArr);
+        });
+
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+}
+
+function dropDown(product){
+    dropdownBox.innerHTML = null;
+    dropdownBox.setAttribute("class", "dropDown");
+    product.forEach((el) => {
+        let div = document.createElement("div");
+        div.setAttribute("class", "dropDownDiv");
+        let prodName = document.createElement("div");
+        prodName.innerHTML = el.product_name;
+        prodName.setAttribute("class", "dropDownName");
+
+        div.onclick = () => {
+            goToProduct(el);
+        }
+
+        div.append(prodName);
+        dropdownBox.append(div);
+    });
+}
+
+let productArr = JSON.parse(localStorage.getItem("itemData"));
+
+function goToProduct(el){
+    productArr = el;
+    localStorage.setItem("itemData", JSON.stringify(productArr));
+    console.log(productArr);
+    window.location.href = "./product_description.html";
+}
+
+function deBounce(func, delay){
+    if(timerId){
+        clearTimeout(timerId);
+    }
+    timerId = setTimeout(function(){
+        func();
+    }, delay);
+}
+
+</script>
+<script src="../script/changeNavbar.js"></script>
+</html>
